@@ -4,7 +4,7 @@ import socket
 import time
 
 
-cherrypy.config.update({'server.socket_host': '0.0.0.0','server.socket_port': 8080})
+cherrypy.config.update({'server.socket_host': '0.0.0.0','server.socket_port': 5000})
 
 global path
 path='database.json'
