@@ -1,13 +1,14 @@
 import cherrypy
 import json
 import time
+import os
 
 global path
 path='database.json'
 
 
 class CatalogWebService(object):
-@cherrypy.expose
+	@cherrypy.expose
 	
 	def POST(self):
 		f=open(path,'r')
@@ -123,4 +124,4 @@ config = {
     }
 }
 
-cherrypy.quickstart(CatalogWebService(), '/', conf)
+cherrypy.quickstart(CatalogWebService(), '/', config=config)
