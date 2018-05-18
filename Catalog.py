@@ -1,6 +1,5 @@
 import cherrypy
 import json
-import socket
 import time
 
 
