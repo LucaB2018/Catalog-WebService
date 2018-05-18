@@ -1,29 +1,14 @@
 import cherrypy
 import json
-import socket
 import time
-
-def get_ip():
-	s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-	try:
-		s.connect(('10.255.255.255', 1))
-		IP = s.getsockname()[0]
-	except:
-		IP = '127.0.0.1'
-	finally:
-		s.close()
-	return IP
-
-cherrypy.config.update({'server.socket_host': get_ip(),'server.socket_port': 8080})
-print get_ip()
-
 
 global path
 path='database.json'
 
-@cherrypy.expose
-class CatalogWebService(object):
 
+class CatalogWebService(object):
+@cherrypy.expose
+	
 	def POST(self):
 		f=open(path,'r')
 		cherrypy.session['data']=f.read()
@@ -125,15 +110,17 @@ class CatalogWebService(object):
 		return cherrypy.session['data']
 		
 
-if __name__ == '__main__':
-	
-	conf = {
-		'/': {
-			'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
-			'tools.sessions.on': True,
-			'tools.response_headers.on': True,
-			'tools.response_headers.headers': [('Content-Type', 'text/plain')],
-		}
-	}
 
-	cherrypy.quickstart(CatalogWebService(), '/', conf)
+config = {
+    'global': {
+	'server.socket_host': '0.0.0.0',
+	'server.socket_port': int(os.environ.get('PORT', 5000)),
+    },
+    '/assets': {
+	'tools.staticdir.root': os.path.dirname(os.path.abspath(__file__)),
+	'tools.staticdir.on': True,
+	'tools.staticdir.dir': 'assets',
+    }
+}
+
+cherrypy.quickstart(CatalogWebService(), '/', conf)
